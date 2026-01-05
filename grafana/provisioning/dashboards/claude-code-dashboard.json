@@ -503,9 +503,9 @@
             "type": "frser-sqlite-datasource",
             "uid": "claude-code-sqlite"
           },
-          "queryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL ORDER BY timestamp DESC LIMIT 50",
+          "queryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL AND ('$hostname' = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ('$project' = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') AND ('$session_id' = 'All' OR session_id = '$session_id') ORDER BY timestamp DESC LIMIT 50",
           "queryType": "table",
-          "rawQueryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL ORDER BY timestamp DESC LIMIT 50",
+          "rawQueryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL AND ('$hostname' = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ('$project' = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') AND ('$session_id' = 'All' OR session_id = '$session_id') ORDER BY timestamp DESC LIMIT 50",
           "refId": "A",
           "timeColumns": ["timestamp"]
         }
@@ -820,7 +820,80 @@
   "style": "dark",
   "tags": ["claude-code", "monitoring"],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "claude-code-sqlite"
+        },
+        "definition": "SELECT DISTINCT json_extract(custom_attributes, '$.host.name') as hostname FROM metrics WHERE json_extract(custom_attributes, '$.host.name') IS NOT NULL UNION SELECT DISTINCT json_extract(custom_attributes, '$.host.name') FROM events WHERE json_extract(custom_attributes, '$.host.name') IS NOT NULL",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Machine",
+        "multi": false,
+        "name": "hostname",
+        "options": [],
+        "query": "SELECT DISTINCT json_extract(custom_attributes, '$.host.name') as hostname FROM metrics WHERE json_extract(custom_attributes, '$.host.name') IS NOT NULL UNION SELECT DISTINCT json_extract(custom_attributes, '$.host.name') FROM events WHERE json_extract(custom_attributes, '$.host.name') IS NOT NULL",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "claude-code-sqlite"
+        },
+        "definition": "SELECT DISTINCT json_extract(custom_attributes, '$.project.name') as project FROM metrics WHERE json_extract(custom_attributes, '$.project.name') IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') UNION SELECT DISTINCT json_extract(custom_attributes, '$.project.name') FROM events WHERE json_extract(custom_attributes, '$.project.name') IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname')",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Project",
+        "multi": false,
+        "name": "project",
+        "options": [],
+        "query": "SELECT DISTINCT json_extract(custom_attributes, '$.project.name') as project FROM metrics WHERE json_extract(custom_attributes, '$.project.name') IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') UNION SELECT DISTINCT json_extract(custom_attributes, '$.project.name') FROM events WHERE json_extract(custom_attributes, '$.project.name') IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "frser-sqlite-datasource",
+          "uid": "claude-code-sqlite"
+        },
+        "definition": "SELECT DISTINCT session_id FROM metrics WHERE session_id IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ($project = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') UNION SELECT DISTINCT session_id FROM events WHERE session_id IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ($project = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') ORDER BY session_id DESC",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Session",
+        "multi": false,
+        "name": "session_id",
+        "options": [],
+        "query": "SELECT DISTINCT session_id FROM metrics WHERE session_id IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ($project = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') UNION SELECT DISTINCT session_id FROM events WHERE session_id IS NOT NULL AND ($hostname = 'All' OR json_extract(custom_attributes, '$.host.name') = '$hostname') AND ($project = 'All' OR json_extract(custom_attributes, '$.project.name') = '$project') ORDER BY session_id DESC",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-24h",
