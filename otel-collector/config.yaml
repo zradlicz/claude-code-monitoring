@@ -25,7 +25,6 @@ exporters:
     tls:
       insecure: true
     compression: none
-    encoding: json
 
   # Debug logging (optional, can be disabled in production)
   logging:
