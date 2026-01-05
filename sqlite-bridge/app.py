@@ -148,6 +148,8 @@ def store_metrics(metrics_data):
 
                     # Extract timestamp (nanoseconds to datetime)
                     ts_nanos = point.get('time_unix_nano', 0)
+                    if isinstance(ts_nanos, str):
+                        ts_nanos = int(ts_nanos)
                     timestamp = datetime.fromtimestamp(ts_nanos / 1e9) if ts_nanos else datetime.now()
 
                     # Extract point attributes
@@ -205,6 +207,8 @@ def store_logs(logs_data):
             for log_record in scope_log.get('log_records', []):
                 # Extract timestamp
                 ts_nanos = log_record.get('time_unix_nano', 0)
+                if isinstance(ts_nanos, str):
+                    ts_nanos = int(ts_nanos)
                 timestamp = datetime.fromtimestamp(ts_nanos / 1e9) if ts_nanos else datetime.now()
 
                 # Extract log attributes
