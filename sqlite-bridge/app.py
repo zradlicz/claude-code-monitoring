@@ -5,6 +5,9 @@ from datetime import datetime
 from flask import Flask, request, jsonify
 import logging
 from pathlib import Path
+from google.protobuf.json_format import MessageToDict
+from opentelemetry.proto.collector.metrics.v1.metrics_service_pb2 import ExportMetricsServiceRequest
+from opentelemetry.proto.collector.logs.v1.logs_service_pb2 import ExportLogsServiceRequest
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -269,10 +272,17 @@ def store_logs(logs_data):
 def receive_metrics():
     """Receive metrics from OpenTelemetry collector."""
     try:
-        data = request.get_json(force=True)
+        # Parse protobuf data
+        proto_data = request.get_data()
+        metrics_request = ExportMetricsServiceRequest()
+        metrics_request.ParseFromString(proto_data)
+
+        # Convert to dict
+        data = MessageToDict(metrics_request, preserving_proto_field_name=True)
+
         count = store_metrics(data)
         logger.info(f"Stored {count} metric data points")
-        return jsonify({"status": "success", "metrics_stored": count}), 200
+        return '', 200
     except Exception as e:
         logger.error(f"Error storing metrics: {e}", exc_info=True)
         return jsonify({"status": "error", "message": str(e)}), 500
@@ -281,10 +291,17 @@ def receive_metrics():
 def receive_logs():
     """Receive logs/events from OpenTelemetry collector."""
     try:
-        data = request.get_json(force=True)
+        # Parse protobuf data
+        proto_data = request.get_data()
+        logs_request = ExportLogsServiceRequest()
+        logs_request.ParseFromString(proto_data)
+
+        # Convert to dict
+        data = MessageToDict(logs_request, preserving_proto_field_name=True)
+
         count = store_logs(data)
         logger.info(f"Stored {count} log/event records")
-        return jsonify({"status": "success", "logs_stored": count}), 200
+        return '', 200
     except Exception as e:
         logger.error(f"Error storing logs: {e}", exc_info=True)
         return jsonify({"status": "error", "message": str(e)}), 500
