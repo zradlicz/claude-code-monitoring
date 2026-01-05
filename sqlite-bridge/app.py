@@ -10,7 +10,7 @@ from opentelemetry.proto.collector.metrics.v1.metrics_service_pb2 import ExportM
 from opentelemetry.proto.collector.logs.v1.logs_service_pb2 import ExportLogsServiceRequest
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 DB_PATH = '/data/claude_monitoring.db'
@@ -280,6 +280,11 @@ def receive_metrics():
         # Convert to dict
         data = MessageToDict(metrics_request, preserving_proto_field_name=True)
 
+        # Debug logging - show structure
+        logger.debug(f"Received metrics data keys: {list(data.keys())}")
+        if 'resource_metrics' in data and len(data['resource_metrics']) > 0:
+            logger.debug(f"First resource_metrics keys: {list(data['resource_metrics'][0].keys())}")
+
         count = store_metrics(data)
         logger.info(f"Stored {count} metric data points")
         return '', 200
@@ -298,6 +303,9 @@ def receive_logs():
 
         # Convert to dict
         data = MessageToDict(logs_request, preserving_proto_field_name=True)
+
+        # Debug logging
+        logger.debug(f"Received logs data: {json.dumps(data, indent=2)}")
 
         count = store_logs(data)
         logger.info(f"Stored {count} log/event records")
