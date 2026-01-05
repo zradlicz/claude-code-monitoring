@@ -100,15 +100,15 @@ def extract_common_attributes(resource_attributes, scope_attributes=None):
         key = attr.get('key', '')
         value = attr.get('value', {})
 
-        # Extract value based on type
-        if 'stringValue' in value:
-            val = value['stringValue']
-        elif 'intValue' in value:
-            val = value['intValue']
-        elif 'doubleValue' in value:
-            val = value['doubleValue']
-        elif 'boolValue' in value:
-            val = value['boolValue']
+        # Extract value based on type (protobuf uses snake_case)
+        if 'string_value' in value:
+            val = value['string_value']
+        elif 'int_value' in value:
+            val = value['int_value']
+        elif 'double_value' in value:
+            val = value['double_value']
+        elif 'bool_value' in value:
+            val = value['bool_value']
         else:
             val = str(value)
 
@@ -122,12 +122,12 @@ def store_metrics(metrics_data):
     cursor = conn.cursor()
 
     count = 0
-    for resource_metric in metrics_data.get('resourceMetrics', []):
+    for resource_metric in metrics_data.get('resource_metrics', []):
         resource_attrs = extract_common_attributes(
             resource_metric.get('resource', {}).get('attributes', [])
         )
 
-        for scope_metric in resource_metric.get('scopeMetrics', []):
+        for scope_metric in resource_metric.get('scope_metrics', []):
             for metric in scope_metric.get('metrics', []):
                 metric_name = metric.get('name', '')
 
@@ -136,18 +136,18 @@ def store_metrics(metrics_data):
                 metric_unit = metric.get('unit', '')
 
                 if 'sum' in metric:
-                    data_points = metric['sum'].get('dataPoints', [])
+                    data_points = metric['sum'].get('data_points', [])
                 elif 'gauge' in metric:
-                    data_points = metric['gauge'].get('dataPoints', [])
+                    data_points = metric['gauge'].get('data_points', [])
                 elif 'histogram' in metric:
-                    data_points = metric['histogram'].get('dataPoints', [])
+                    data_points = metric['histogram'].get('data_points', [])
 
                 for point in data_points:
                     # Extract value
-                    value = point.get('asDouble', point.get('asInt', 0))
+                    value = point.get('as_double', point.get('as_int', 0))
 
                     # Extract timestamp (nanoseconds to datetime)
-                    ts_nanos = point.get('timeUnixNano', 0)
+                    ts_nanos = point.get('time_unix_nano', 0)
                     timestamp = datetime.fromtimestamp(ts_nanos / 1e9) if ts_nanos else datetime.now()
 
                     # Extract point attributes
@@ -196,15 +196,15 @@ def store_logs(logs_data):
     cursor = conn.cursor()
 
     count = 0
-    for resource_log in logs_data.get('resourceLogs', []):
+    for resource_log in logs_data.get('resource_logs', []):
         resource_attrs = extract_common_attributes(
             resource_log.get('resource', {}).get('attributes', [])
         )
 
-        for scope_log in resource_log.get('scopeLogs', []):
-            for log_record in scope_log.get('logRecords', []):
+        for scope_log in resource_log.get('scope_logs', []):
+            for log_record in scope_log.get('log_records', []):
                 # Extract timestamp
-                ts_nanos = log_record.get('timeUnixNano', 0)
+                ts_nanos = log_record.get('time_unix_nano', 0)
                 timestamp = datetime.fromtimestamp(ts_nanos / 1e9) if ts_nanos else datetime.now()
 
                 # Extract log attributes
@@ -214,7 +214,7 @@ def store_logs(logs_data):
                 all_attrs = {**resource_attrs, **log_attrs}
 
                 # Determine event name from log body or attributes
-                event_name = log_record.get('body', {}).get('stringValue',
+                event_name = log_record.get('body', {}).get('string_value',
                             all_attrs.get('event.name', 'unknown_event'))
 
                 cursor.execute('''
