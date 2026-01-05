@@ -31,7 +31,7 @@ mkdir -p data
 
 # Build and start services
 echo "Building and starting services..."
-docker-compose up -d --build
+docker compose up -d --build
 
 echo ""
 echo -e "${GREEN}Services started successfully!${NC}"
@@ -42,7 +42,7 @@ sleep 10
 # Check service health
 echo ""
 echo "Service Status:"
-docker-compose ps
+docker compose ps
 
 echo ""
 echo "========================================="
@@ -63,8 +63,8 @@ echo "  2. Run Claude Code normally"
 echo "  3. Open Grafana to view metrics and prompts"
 echo ""
 echo "To view logs:"
-echo "  docker-compose logs -f"
+echo "  docker compose logs -f"
 echo ""
 echo "To stop services:"
-echo "  docker-compose down"
+echo "  docker compose down"
 echo ""
