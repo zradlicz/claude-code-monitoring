@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # OpenTelemetry Collector - receives telemetry from Claude Code
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.92.0
+    container_name: claude-otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector/config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    networks:
+      - claude-monitoring
+    depends_on:
+      - sqlite-bridge
+    restart: unless-stopped
+
+  # SQLite Bridge - stores OpenTelemetry data in SQLite
+  sqlite-bridge:
+    build: ./sqlite-bridge
+    container_name: claude-sqlite-bridge
+    volumes:
+      - ./data:/data
+    ports:
+      - "5000:5000"
+    networks:
+      - claude-monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Grafana - visualization dashboard
+  grafana:
+    image: grafana/grafana:10.2.3
+    container_name: claude-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./data:/data:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - claude-monitoring
+    depends_on:
+      - sqlite-bridge
+    restart: unless-stopped
+
+networks:
+  claude-monitoring:
+    driver: bridge
+
+volumes:
+  grafana-storage:

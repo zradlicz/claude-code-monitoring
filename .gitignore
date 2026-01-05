@@ -1,0 +1,26 @@
+# Data directory containing SQLite database
+data/
+
+# Environment configuration
+claude-code-env.sh
+
+# Docker volumes
+grafana-storage/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# SQLite database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

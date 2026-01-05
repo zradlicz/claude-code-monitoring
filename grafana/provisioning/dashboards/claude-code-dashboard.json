@@ -1,0 +1,835 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "sum"
+          ],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'input' AND timestamp >= datetime('now', '-24 hours')",
+          "queryType": "table",
+          "rawQueryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'input' AND timestamp >= datetime('now', '-24 hours')",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Total Input Tokens (24h)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "sum"
+          ],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'output' AND timestamp >= datetime('now', '-24 hours')",
+          "queryType": "table",
+          "rawQueryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'output' AND timestamp >= datetime('now', '-24 hours')",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Total Output Tokens (24h)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "sum"
+          ],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.cost.usage' AND timestamp >= datetime('now', '-24 hours')",
+          "queryType": "table",
+          "rawQueryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.cost.usage' AND timestamp >= datetime('now', '-24 hours')",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Total Cost (24h)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "sum"
+          ],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.session.count' AND timestamp >= datetime('now', '-24 hours')",
+          "queryType": "table",
+          "rawQueryText": "SELECT SUM(metric_value) as value FROM metrics WHERE metric_name = 'claude_code.session.count' AND timestamp >= datetime('now', '-24 hours')",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Sessions Started (24h)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, SUM(metric_value) as input_tokens FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'input' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, SUM(metric_value) as input_tokens FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'input' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        },
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, SUM(metric_value) as output_tokens FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'output' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, SUM(metric_value) as output_tokens FROM metrics WHERE metric_name = 'claude_code.token.usage' AND type = 'output' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "refId": "B",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Token Usage Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, SUM(metric_value) as cost FROM metrics WHERE metric_name = 'claude_code.cost.usage' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, SUM(metric_value) as cost FROM metrics WHERE metric_name = 'claude_code.cost.usage' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Cost Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL ORDER BY timestamp DESC LIMIT 50",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, prompt_length, SUBSTR(prompt, 1, 200) || '...' as prompt_preview FROM events WHERE event_name = 'claude_code.user_prompt' AND prompt IS NOT NULL ORDER BY timestamp DESC LIMIT 50",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Recent User Prompts",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 27
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": ["value"]
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT tool_name, COUNT(*) as count FROM events WHERE event_name = 'claude_code.tool_result' AND tool_name IS NOT NULL GROUP BY tool_name ORDER BY count DESC",
+          "queryType": "table",
+          "rawQueryText": "SELECT tool_name, COUNT(*) as count FROM events WHERE event_name = 'claude_code.tool_result' AND tool_name IS NOT NULL GROUP BY tool_name ORDER BY count DESC",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Tool Usage Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 50,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 27
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, SUM(CASE WHEN type = 'added' THEN metric_value ELSE 0 END) as added, SUM(CASE WHEN type = 'removed' THEN metric_value ELSE 0 END) as removed FROM metrics WHERE metric_name = 'claude_code.lines_of_code.count' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, SUM(CASE WHEN type = 'added' THEN metric_value ELSE 0 END) as added, SUM(CASE WHEN type = 'removed' THEN metric_value ELSE 0 END) as removed FROM metrics WHERE metric_name = 'claude_code.lines_of_code.count' GROUP BY strftime('%Y-%m-%d %H:%M', timestamp) ORDER BY timestamp",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Lines of Code Added/Removed",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, model, input_tokens, output_tokens, cache_read_tokens, cache_creation_tokens, cost_usd, duration_ms FROM events WHERE event_name = 'claude_code.api_request' ORDER BY timestamp DESC LIMIT 50",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, model, input_tokens, output_tokens, cache_read_tokens, cache_creation_tokens, cost_usd, duration_ms FROM events WHERE event_name = 'claude_code.api_request' ORDER BY timestamp DESC LIMIT 50",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "Recent API Requests",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "claude-code-sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "error"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "frser-sqlite-datasource",
+            "uid": "claude-code-sqlite"
+          },
+          "queryText": "SELECT timestamp, model, error, status_code, attempt, duration_ms FROM events WHERE event_name = 'claude_code.api_error' ORDER BY timestamp DESC LIMIT 30",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp, model, error, status_code, attempt, duration_ms FROM events WHERE event_name = 'claude_code.api_error' ORDER BY timestamp DESC LIMIT 30",
+          "refId": "A",
+          "timeColumns": ["timestamp"]
+        }
+      ],
+      "title": "API Errors",
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["claude-code", "monitoring"],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Claude Code Monitoring Dashboard",
+  "uid": "claude-code-main",
+  "version": 0,
+  "weekStart": ""
+}

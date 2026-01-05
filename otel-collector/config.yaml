@@ -1,0 +1,45 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 10s
+    send_batch_size: 100
+
+  # Add resource attributes for better organization
+  resource:
+    attributes:
+      - key: service.name
+        value: claude-code
+        action: upsert
+
+exporters:
+  # Export to our custom SQLite bridge service
+  otlphttp/sqlite:
+    endpoint: http://sqlite-bridge:5000
+    tls:
+      insecure: true
+    compression: none
+
+  # Debug logging (optional, can be disabled in production)
+  logging:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [otlphttp/sqlite, logging]
+
+    logs:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [otlphttp/sqlite, logging]

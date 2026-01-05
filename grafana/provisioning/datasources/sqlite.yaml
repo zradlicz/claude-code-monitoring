@@ -1,0 +1,11 @@
+apiVersion: 1
+
+datasources:
+  - name: Claude Code Monitoring
+    type: frser-sqlite-datasource
+    access: proxy
+    uid: claude-code-sqlite
+    isDefault: true
+    jsonData:
+      path: /data/claude_monitoring.db
+    editable: true
