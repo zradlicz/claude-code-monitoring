@@ -269,7 +269,7 @@ def store_logs(logs_data):
 def receive_metrics():
     """Receive metrics from OpenTelemetry collector."""
     try:
-        data = request.get_json()
+        data = request.get_json(force=True)
         count = store_metrics(data)
         logger.info(f"Stored {count} metric data points")
         return jsonify({"status": "success", "metrics_stored": count}), 200
@@ -281,7 +281,7 @@ def receive_metrics():
 def receive_logs():
     """Receive logs/events from OpenTelemetry collector."""
     try:
-        data = request.get_json()
+        data = request.get_json(force=True)
         count = store_logs(data)
         logger.info(f"Stored {count} log/event records")
         return jsonify({"status": "success", "logs_stored": count}), 200
