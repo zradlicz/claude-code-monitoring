@@ -35,12 +35,14 @@ def init_db():
             tool TEXT,
             decision TEXT,
             language TEXT,
-            custom_attributes TEXT,
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_session_id (session_id),
-            INDEX idx_metric_name (metric_name)
+            custom_attributes TEXT
         )
     ''')
+
+    # Create indexes for metrics table
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_metrics_timestamp ON metrics(timestamp)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_metrics_session_id ON metrics(session_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_metrics_metric_name ON metrics(metric_name)')
 
     # Events/Logs table
     cursor.execute('''
@@ -70,12 +72,14 @@ def init_db():
             cache_creation_tokens INTEGER,
             status_code INTEGER,
             attempt INTEGER,
-            custom_attributes TEXT,
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_session_id (session_id),
-            INDEX idx_event_name (event_name)
+            custom_attributes TEXT
         )
     ''')
+
+    # Create indexes for events table
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_timestamp ON events(timestamp)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_session_id ON events(session_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_events_event_name ON events(event_name)')
 
     conn.commit()
     conn.close()
